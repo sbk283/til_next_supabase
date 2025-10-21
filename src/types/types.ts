@@ -1,3 +1,12 @@
+// Counter Store 타입 정의
+export interface CounterState {
+  count: number; // 현재 카운터 값(숫자)
+  increment: () => void; // 카운터 1증가
+  decrement: () => void; // 카운터 1감소
+  reset: () => void; // 카운터 0 초기화
+  setCount: (count: number) => void; // 직접 카운터 값 설정
+}
+
 // User 타입 정의
 export interface User {
   id: string;
@@ -17,6 +26,7 @@ export interface UserState {
 }
 
 // 테마 타입 정의
+// system 테마 : 시스템 설정을 따르는 테마
 export type Theme = 'light' | 'dark' | 'system';
 
 // 테마 Store 타입 정의
@@ -24,4 +34,27 @@ export interface ThemeState {
   theme: Theme; // 현재 선택된 테마
   setTheme: (theme: Theme) => void; // 특정 테마로 설정하는 함수
   toggleTheme: () => void; // 라이트/다크 테마를 전환하는 함수
+}
+
+// Todo 타입 정의
+export interface Todo {
+  id: string;
+  text: string;
+  completed: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+// Todo Store 타입정의
+export interface TodoState {
+  // state 타입
+  todos: Todo[]; // 모든 할일 목록 배열
+  filter: 'all' | 'active' | 'completed'; // 현재 적용된 필터
+  // action 타입
+  addTodo: (text: string) => void; // 새로운 할일 추가
+  toggleTodo: (id: string) => void; // 할일 완료 상태 토글
+  deleteTodo: (id: string) => void; // 할일 삭제
+  updateTodo: (id: string, text: string) => void; // 할일 내용 수정
+  setFilter: (filter: 'all' | 'active' | 'completed') => void; // 필터 설정
+  clearCompleted: () => void; // 완료된 할일 모두 삭제
+  getFilteredTodos: () => Todo[]; // 현재 선택된 할일 목록만 반환
 }
