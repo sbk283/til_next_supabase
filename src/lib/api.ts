@@ -39,11 +39,10 @@ export interface Todo {
   title: string;
   completed: boolean;
 }
-
 // 사용자 목록가져오기 API
 export async function fetchUsers(): Promise<User[]> {
   // Vanila js 활용(Next.js 의 fetch 아님)
-  const response = await fetch('<https://jsonplaceholder.typicode.com/users>');
+  const response = await fetch('https://jsonplaceholder.typicode.com/users');
 
   if (!response.ok) {
     throw new Error('사용자 목록 가져오기 실패');
@@ -72,7 +71,7 @@ export async function fetchUser(id: number): Promise<User> {
 export async function fetchPosts(userId?: number): Promise<Post[]> {
   const url = userId
     ? `https://jsonplaceholder.typicode.com/posts?userId=${userId}`
-    : '<https://jsonplaceholder.typicode.com/posts>';
+    : 'https://jsonplaceholder.typicode.com/posts';
 
   // Vanila js 활용(Next.js 의 fetch 아님)
   const response = await fetch(url);
@@ -116,7 +115,7 @@ export async function fetchComments(postId: number): Promise<Comment[]> {
 export async function fetchTodos(userId?: number): Promise<Todo[]> {
   const url = userId
     ? `https://jsonplaceholder.typicode.com/todos?userId=${userId}`
-    : '<https://jsonplaceholder.typicode.com/todos>';
+    : 'https://jsonplaceholder.typicode.com/todos';
 
   const response = await fetch(url);
 
@@ -129,7 +128,7 @@ export async function fetchTodos(userId?: number): Promise<Todo[]> {
 
 // 새 게시글 생성하는 함수
 export async function createPost(post: Omit<Post, 'id'>): Promise<Post> {
-  const response = await fetch('<https://jsonplaceholder.typicode.com/posts>', {
+  const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

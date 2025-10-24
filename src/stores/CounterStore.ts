@@ -1,7 +1,3 @@
-import { CounterState } from '@/types/types';
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-
 // Counter Store - zustand 로 카운터 관리
 // 1 단계 - store 타입 정의 (통상 types/types.ts 에 정의)
 // interface CounterState {
@@ -11,6 +7,10 @@ import { persist } from 'zustand/middleware';
 //   reset: () => void; // 카운터 0 초기화
 //   setCount: (count: number) => void; // 직접 카운터 값 설정
 // }
+
+import { CounterState } from '@/types/types';
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 // 2 단계 - store 구현(필요시 localStorage 활용)
 // create :  store 즉, state 만들기

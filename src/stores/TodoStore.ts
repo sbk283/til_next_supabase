@@ -90,7 +90,9 @@ const todoLocalState = create<TodoState>()(
       // state 를 다루는 액션의 기능 작성
       addTodo: (text: string) => {
         const newTodo: Todo = {
-          id: '',
+          // 고유한 UUID 생성하기
+          // https://developer.mozilla.org/ko/docs/Web/API/Window/crypto
+          id: crypto.randomUUID(),
           text: text,
           completed: false,
           createdAt: new Date(),
