@@ -1,3 +1,3 @@
-# 기본 레이아웃 설정
+# supabase 세팅
 
-- /src/app/layout.tsx
+## 1. Supabase 계정 생성
