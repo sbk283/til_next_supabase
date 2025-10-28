@@ -27,6 +27,13 @@ function SignIn() {
     signInWithKakao('kakao');
   };
 
+  // 구글 로그인
+  const { mutate: signInWithGoogle, isPending: isPendingGoogle } =
+    useSignInWithKakao();
+  const handleSignInWithGoogle = () => {
+    signInWithKakao('kakao');
+  };
+
   return (
     <div className='flex flex-col gap-8'>
       <div className='text-xl font-bold'>로그인</div>
@@ -59,11 +66,19 @@ function SignIn() {
         </Button>
         {/* 카카오 소셜 로그인 */}
         <Button
-          className='w-full cursor-pointer'
+          className='w-full cursor-pointer bg-yellow-400'
           onClick={handleSignInWithKakao}
           disabled={isPendingKakao}
         >
           카카오 로그인
+        </Button>
+        {/* 구글 소셜 로그인 */}
+        <Button
+          className='w-full cursor-pointer bg-blue-500'
+          onClick={handleSignInWithGoogle}
+          disabled={isPendingGoogle}
+        >
+          구글 로그인
         </Button>
       </div>
       <div>
