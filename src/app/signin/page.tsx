@@ -1,17 +1,29 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { getErrorMessage } from '@/lib/error';
 import Link from 'next/link';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { useSignInWithPassword } from '../hooks/mutations/useSignInWithPassword';
 import { useSignInWithKakao } from '../hooks/mutations/useSignInKakao';
+import { useSignInWithGoogle } from '../hooks/mutations/useSignInWithGoogle';
 
 function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   // 이메일로 로그인
   const { mutate: signInPassword, isPending: isPendingPassword } =
-    useSignInWithPassword();
+    useSignInWithPassword({
+      onError: error => {
+        setPassword('');
+        // Sonner 로 띄우기
+        // 한글 메시지로 교체
+        const message = getErrorMessage(error);
+        toast.error(message, { position: 'top-center' });
+      },
+    });
 
   const handleSignInWithEmail = () => {
     if (!email.trim()) return;
@@ -22,16 +34,32 @@ function SignIn() {
 
   // 카카오 로그인
   const { mutate: signInWithKakao, isPending: isPendingKakao } =
-    useSignInWithKakao();
+    useSignInWithKakao({
+      onError: error => {
+        // Sonner 로 띄우기
+        // 한글 메시지로 교체
+        const message = getErrorMessage(error);
+        toast.error(message, { position: 'top-center' });
+      },
+    });
+
   const handleSignInWithKakao = () => {
     signInWithKakao('kakao');
   };
 
   // 구글 로그인
   const { mutate: signInWithGoogle, isPending: isPendingGoogle } =
-    useSignInWithKakao();
+    useSignInWithGoogle({
+      onError: error => {
+        // Sonner 로 띄우기
+        // 한글 메시지로 교체
+        const message = getErrorMessage(error);
+        toast.error(message, { position: 'top-center' });
+      },
+    });
+
   const handleSignInWithGoogle = () => {
-    signInWithKakao('kakao');
+    signInWithKakao('google');
   };
 
   return (
@@ -56,7 +84,7 @@ function SignIn() {
         />
       </div>
       <div className='flex flex-col gap-2'>
-        {/* 비밀번호 로그인 */}
+        {/* 비밀번호 및 이메일 로그인 */}
         <Button
           onClick={handleSignInWithEmail}
           className='w-full cursor-pointer'
@@ -66,19 +94,20 @@ function SignIn() {
         </Button>
         {/* 카카오 소셜 로그인 */}
         <Button
-          className='w-full cursor-pointer bg-yellow-400'
+          className='w-full cursor-pointer'
           onClick={handleSignInWithKakao}
           disabled={isPendingKakao}
         >
-          카카오 로그인
+          카카오 계정 로그인
         </Button>
+
         {/* 구글 소셜 로그인 */}
         <Button
-          className='w-full cursor-pointer bg-blue-500'
+          className='w-full cursor-pointer'
           onClick={handleSignInWithGoogle}
           disabled={isPendingGoogle}
         >
-          구글 로그인
+          구글 계정 로그인
         </Button>
       </div>
       <div>
