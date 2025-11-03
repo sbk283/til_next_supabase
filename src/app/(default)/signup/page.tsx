@@ -3,9 +3,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { useState } from 'react';
-import { useSignUp } from '../hooks/mutations/useSignUp';
 import { getErrorMessage } from '@/lib/error';
 import { toast } from 'sonner';
+import { useSignUp } from '@/hooks/mutations/useSignUp';
 
 function SignUp() {
   // 컴포넌트 상태

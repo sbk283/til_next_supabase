@@ -1,22 +1,167 @@
-# SMTP
+## 10. 비밀번호 변경하기
 
-- simple mail transper protocol
-- 이메일을 보내는 컴퓨터, 즉 이메일 서버가 있어야 함.
-- Supabase 는 1시간 2~3회만 인증메일 보낼 수있습니다.
-- 참조블러그
-- https://mycodingshub.github.io/blog/2025-01-11-nextjs-supabase-tutorial-5-sending-confirm-email-without-domain/
+- /src/app/reset-password/page.tsx
 
-## 1. 서비스 신청
+### 10.1. UI 구성하기
 
-- Brevo : 도메일 없이 가능.
-- Resend : 도메인 필요함.
+```tsx
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
-## 2. Brervo 서비스 신청
+function ResetPassword() {
+  return (
+    <div className='flex flex-col gap-8'>
+      <div className='flex flex-col gap-1'>
+        <div className='text-xl font-bold'>비밀번호 재설정하기</div>
+        <div className='text-muted-foreground'>
+          새로운 비밀번호를 입력하세요.
+        </div>
+      </div>
+      <Input className='py-6' type='password' placeholder='password' />
+      <Button className='w-full'>비밀번호 변경하기</Button>
+    </div>
+  );
+}
 
-- 반드시 사용하는 gmail 권장함
-- 전화가 해외 문자 옴
-- https://www.brevo.com
+export default ResetPassword;
+```
 
-## 3. 회원가입 성공하신 분은 별도 셋팅 진행
+### 10.2. 컴포넌트 state 구성하기
 
-- 추후 연락 가능
+```tsx
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useState } from 'react';
+
+function ResetPassword() {
+  const [password, setPassword] = useState('');
+  const handleResetPasswordClick = () => {
+    if (password.trim() === '') return;
+    console.log(password);
+  };
+  return (
+    <div className='flex flex-col gap-8'>
+      <div className='flex flex-col gap-1'>
+        <div className='text-xl font-bold'>비밀번호 재설정하기</div>
+        <div className='text-muted-foreground'>
+          새로운 비밀번호를 입력하세요.
+        </div>
+      </div>
+      <Input
+        value={password}
+        onChange={e => setPassword(e.target.value)}
+        className='py-6'
+        type='password'
+        placeholder='password'
+      />
+      <Button onClick={handleResetPasswordClick} className='w-full'>
+        비밀번호 변경하기
+      </Button>
+    </div>
+  );
+}
+
+export default ResetPassword;
+```
+
+### 10.3. api 만들기
+
+```tsx
+// 비밀번호 재설정
+export async function updatePassword({ password }: { password: string }) {
+  const { data, error } = await supabase.auth.updateUser({
+    password,
+  });
+
+  if (error) throw error;
+  return data;
+}
+```
+
+### 10.4. mutation 만들기
+
+- `/src/hooks/muations/useUpdatePassword.ts 파일` 생성
+
+```tsx
+import { updatePassword } from '@/apis/auth';
+import { UseMutationCallback } from '@/types/types';
+import { useMutation } from '@tanstack/react-query';
+
+export function useUpdatePassword(callbacks?: UseMutationCallback) {
+  return useMutation({
+    mutationFn: updatePassword,
+    onSuccess: () => {
+      if (callbacks?.onSuccess) callbacks.onSuccess();
+    },
+    onError: error => {
+      if (callbacks?.onError) callbacks.onError(error);
+    },
+  });
+}
+```
+
+### 10.5. mutation 활용하기
+
+```tsx
+'use client';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useUpdatePassword } from '@/hooks/mutations/useUpdatePassword';
+import { getErrorMessage } from '@/lib/error';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { toast } from 'sonner';
+
+function ResetPassword() {
+  const router = useRouter();
+  const [password, setPassword] = useState('');
+  const { mutate: updatePassword, isPending: isUpdatePasswordPending } =
+    useUpdatePassword({
+      onSuccess: () => {
+        toast.success('비밀번호가 성공적으로 변경되었습니다.', {
+          position: 'top-center',
+        });
+        router.push('/');
+      },
+      onError: error => {
+        const message = getErrorMessage(error);
+        toast.error(message, {
+          position: 'top-center',
+        });
+        setPassword('');
+      },
+    });
+  const handleResetPasswordClick = () => {
+    if (password.trim() === '') return;
+    console.log(password);
+    updatePassword({ password });
+  };
+  return (
+    <div className='flex flex-col gap-8'>
+      <div className='flex flex-col gap-1'>
+        <div className='text-xl font-bold'>비밀번호 재설정하기</div>
+        <div className='text-muted-foreground'>
+          새로운 비밀번호를 입력하세요.
+        </div>
+      </div>
+      <Input
+        value={password}
+        onChange={e => setPassword(e.target.value)}
+        disabled={isUpdatePasswordPending}
+        className='py-6'
+        type='password'
+        placeholder='password'
+      />
+      <Button
+        onClick={handleResetPasswordClick}
+        disabled={isUpdatePasswordPending}
+        className='w-full'
+      >
+        {isUpdatePasswordPending ? '비밀번호 변경 중...' : '비밀번호 변경하기'}
+      </Button>
+    </div>
+  );
+}
+
+export default ResetPassword;
+```

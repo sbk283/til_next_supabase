@@ -1,7 +1,7 @@
 'use client';
-import { useSignInWithKakao } from '@/app/hooks/mutations/useSignInKakao';
-import { useSignInWithGoogle } from '@/app/hooks/mutations/useSignInWithGoogle';
-import { useSignInWithPassword } from '@/app/hooks/mutations/useSignInWithPassword';
+import { useSignInWithKakao } from '@/hooks/mutations/useSignInKakao';
+import { useSignInWithGoogle } from '@/hooks/mutations/useSignInWithGoogle';
+import { useSignInWithPassword } from '@/hooks/mutations/useSignInWithPassword';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { getErrorMessage } from '@/lib/error';
@@ -111,12 +111,20 @@ function SignIn() {
         </Button>
       </div>
       <div>
-        <Link
-          href={'/signup'}
-          className='text-muted-foreground hover:underline'
-        >
-          계정이 없으시다면? 회원가입
-        </Link>
+        <div className='flex flex-col gap-2'>
+          <Link
+            className='text-muted-foreground hover:underline'
+            href={'/signup'}
+          >
+            계정이 없으시다면? 회원가입
+          </Link>
+          <Link
+            className='text-muted-foreground hover:underline'
+            href={'/forget-password'}
+          >
+            비밀번호를 잊으셨나요?
+          </Link>
+        </div>
       </div>
     </div>
   );
