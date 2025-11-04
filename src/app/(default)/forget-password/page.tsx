@@ -31,6 +31,7 @@ export default function ForgetPassword() {
     if (email.trim() === '') return;
     console.log(email);
     // mutation 실행하기
+    mutate({ email });
   };
 
   return (
@@ -49,8 +50,12 @@ export default function ForgetPassword() {
         type='email'
         placeholder='example@example.com'
       />
-      <Button onClick={handleEmailSendClick} className='w-full'>
-        {isPending ? '인증 메일 요청중...' : '인증 메일 요청하기'}
+      <Button
+        onClick={handleEmailSendClick}
+        disabled={isPending}
+        className='w-full'
+      >
+        {isPending ? '인증 메일 요청 중...' : '인증 메일 요청하기'}
       </Button>
     </div>
   );

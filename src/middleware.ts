@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server';
-import { createClient } from './lib/supabase/middlewave';
+import { createClient } from '@/lib/supabase/middleware';
 
 export async function middleware(request: NextRequest) {
   // 사용자가 어느 주소로 왔는가?

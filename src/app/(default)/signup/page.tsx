@@ -1,11 +1,12 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useSignUp } from '@/hooks/mutations/useSignUp';
+import { getErrorMessage } from '@/lib/error';
+import { error } from 'console';
 import Link from 'next/link';
 import { useState } from 'react';
-import { getErrorMessage } from '@/lib/error';
 import { toast } from 'sonner';
-import { useSignUp } from '@/hooks/mutations/useSignUp';
 
 function SignUp() {
   // 컴포넌트 상태
@@ -28,6 +29,7 @@ function SignUp() {
     // supabase 회원가입 처리 코드
     mutate({ email: email, password: password });
   };
+
   return (
     <div className='flex flex-col gap-8'>
       <div className='text-xl font-bold'>회원가입</div>

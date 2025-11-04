@@ -1,9 +1,9 @@
 'use client';
-import { useSignInWithKakao } from '@/hooks/mutations/useSignInKakao';
-import { useSignInWithGoogle } from '@/hooks/mutations/useSignInWithGoogle';
-import { useSignInWithPassword } from '@/hooks/mutations/useSignInWithPassword';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useSignInWithGoogle } from '@/hooks/mutations/useSignInWithGoogle';
+import { useSignInWithKakao } from '@/hooks/mutations/useSignInWithKakao';
+import { useSignInWithPassword } from '@/hooks/mutations/useSignInWithPassword';
 import { getErrorMessage } from '@/lib/error';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -110,21 +110,19 @@ function SignIn() {
           구글 계정 로그인
         </Button>
       </div>
-      <div>
-        <div className='flex flex-col gap-2'>
-          <Link
-            className='text-muted-foreground hover:underline'
-            href={'/signup'}
-          >
-            계정이 없으시다면? 회원가입
-          </Link>
-          <Link
-            className='text-muted-foreground hover:underline'
-            href={'/forget-password'}
-          >
-            비밀번호를 잊으셨나요?
-          </Link>
-        </div>
+      <div className='flex flex-col gap-2'>
+        <Link
+          className='text-muted-foreground hover:underline'
+          href={'/signup'}
+        >
+          계정이 없으시다면? 회원가입
+        </Link>
+        <Link
+          className='text-muted-foreground hover:underline'
+          href={'/forget-password'}
+        >
+          비밀번호를 잊으셨나요?
+        </Link>
       </div>
     </div>
   );

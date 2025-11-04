@@ -40,9 +40,7 @@ export async function signInWithPassword({
 // supabase 백엔드에 소셜 로그인
 export async function signInWithOAuth(provider: Provider) {
   const { data, error } = await supabase.auth.signInWithOAuth({ provider });
-
   if (error) throw error;
-
   return data;
 }
 
