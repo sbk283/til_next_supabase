@@ -22,14 +22,8 @@ export default function QueryProvider({
       new QueryClient({
         defaultOptions: {
           queries: {
-            // 0초동안 fresh 유효 시간
-            staleTime: 0,
-            // 5분동안 inactive 상태 지정
-            gcTime: 5 * 60 * 1000, // 5분
-            refetchOnMount: true,
-            refetchOnWindowFocus: true,
-            refetchOnReconnect: false,
-            refetchInterval: false,
+            retry: false,
+            refetchOnWindowFocus: false,
           },
         },
       })
