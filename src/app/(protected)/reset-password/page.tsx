@@ -28,7 +28,6 @@ function ResetPassword() {
     });
   const handleResetPasswordClick = () => {
     if (password.trim() === '') return;
-    console.log(password);
     updatePassword({ password });
   };
   return (

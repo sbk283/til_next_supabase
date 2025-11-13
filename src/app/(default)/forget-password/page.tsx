@@ -29,7 +29,6 @@ export default function ForgetPassword() {
   // 이메일 전송 이벤트 핸들러
   const handleEmailSendClick = () => {
     if (email.trim() === '') return;
-    console.log(email);
     // mutation 실행하기
     mutate({ email });
   };

@@ -22,7 +22,6 @@ export async function createProfile(userId: string) {
     .insert({ id: userId, nickname: getRandomNickName() })
     .select()
     .single();
-
   if (error) throw error;
   return data;
 }
