@@ -11,6 +11,7 @@ import { HeartIcon, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import EditPostItemButton from './EditPostItemButton';
 import defaultAvatar from '/public/assets/icons/default-avatar.jpg';
+import DeletePostButton from './DeletePostButton';
 
 export default function PostItem(post: Post) {
   return (
@@ -40,10 +41,7 @@ export default function PostItem(post: Post) {
         {/* 1-2. 수정/삭제 버튼 */}
         <div className='text-muted-foreground flex text-sm'>
           <EditPostItemButton {...post} />
-
-          <Button className='cursor-pointer' variant={'ghost'}>
-            삭제
-          </Button>
+          <DeletePostButton id={post.id} />
         </div>
       </div>
 
